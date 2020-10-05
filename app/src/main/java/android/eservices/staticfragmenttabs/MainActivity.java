@@ -1,16 +1,24 @@
 package android.eservices.staticfragmenttabs;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
-public class MainActivity extends AppCompatActivity {
+import static java.lang.String.format;
 
-    private ViewPager viewPager;
-    private int currentCounter;
+public class MainActivity extends AppCompatActivity implements FragmentOne.OnButtonSelectedListener{
+
+    private ViewPager2 viewPager;
+    private int currentCounter = 0;
     private TextView counterTextView;
+    private FragmentStateAdapter pagerAdapter;
+    private String stringAffiche;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,15 +28,41 @@ public class MainActivity extends AppCompatActivity {
         setupViewPagerAndTabs();
     }
 
-    //TODO fill the method to get view references and initialize viewpager to display our fragments
     private void setupViewPagerAndTabs() {
+        viewPager = findViewById(R.id.tab_viewpager);
+        pagerAdapter = new FragmentStateAdapter(this) {
+            @Override
+            public int getItemCount() {
+                return 2;
+            }
 
-        //TODO we want two fragments with layouts : fragment_one, fragment_two.
+            @NonNull
+            @Override
+            public Fragment createFragment(int position) {
+                if(position == 0){
+                    return new FragmentOne();
+                }else{
+                    return new FragmentTwo();
+                }
+            }
+        };
+        viewPager.setAdapter(pagerAdapter);
 
-        //TODO set adapter to viewpager and handle tragment change inside
-        //viewpager.setAdapter(...);
+        stringAffiche = getString(R.string.counter_text);
+
+        counterTextView = findViewById(R.id.counter_textview);
 
     }
 
-    //TODO : increment and decrement counter, use the already provided String ressource (see strings.xml)
+    @Override
+    public void OnButtonSelected(Button buttonIncrement, int idButton) {
+        if(idButton == 1){
+            currentCounter+=1;
+        }else{
+            currentCounter-=1;
+        }
+
+        counterTextView.setText(format(stringAffiche,currentCounter));
+    }
+
 }
