@@ -5,7 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.tabs.TabLayout;
 
 
 public class FragmentOne extends Fragment{
@@ -26,6 +31,7 @@ public class FragmentOne extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_one, container, false);
+
 
         buttonIncrement = v.findViewById(R.id.button_increment);
         buttonIncrement.setOnClickListener(new View.OnClickListener() {
